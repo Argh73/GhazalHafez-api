@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>غزل‌های API</title>
+</head>
+<body>
+  <pre id="output">در حال بارگذاری...</pre>
+  <script type="module">
+    fetch('hafez.json')
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+      })
+      .then(data => {
+        const randomGhizal = data[Math.floor(Math.random() * data.length)];
+
+        const result = {
+          ok: true,
+          dev: "Argh94",
+          ghazal_number: randomGhizal.ghazal_number,
+          poem: randomGhizal.poem
+        };
+
+        document.getElementById('output').textContent =
+          JSON.stringify(result, null, 2);
+      })
+      .catch(err => {
+        const errorResult = {
+          ok: false,
+          dev: "Argh94",
+          ghazal_number: null,
+          poem: [ "خطا در بارگذاری غزل‌ها", "دلیل: " + err.message ]
+        };
+        document.getElementById('output').textContent =
+          JSON.stringify(errorResult, null, 2);
+      });
+  </script>
+</body>
+</html>
